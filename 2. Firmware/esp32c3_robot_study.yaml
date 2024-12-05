@@ -1,0 +1,158 @@
+####################开源协议：GPL 3.0#####################################
+####################项目名称:#############################################
+####################全屋智能DIY入门之ESP32C3开发套装########################
+####################版权所有 (C) 2024 雷泽智能#############################
+#本项目是基于GPL 3.0协议开源的，意味着您可以自由地使用、修改和分发该项目的源代码，但需要遵循以下条件：
+#1. 在使用、修改或分发本项目时，必须在显著位置注明原作者为“雷泽智能”，并且不得删除开源作品原有的“雷泽智能”品牌标识。
+#2. 本项目的使用仅限于非商业领域。商业领域的使用必须获得原作者的额外授权。
+#3. 您必须将任何基于本项目的修改或衍生作品同样以GPL 3.0协议开源，并保留原作者信息。
+
+#20241204更新
+
+## 定义产品名称、主控芯片，并增加mac地址后6位以做区分
+esphome:
+  name: rezti-c3-robot-study
+  name_add_mac_suffix: true
+
+esp32:
+  board: esp32-c3-devkitm-1
+
+
+## 定义wifi，自动开启ap模式
+wifi:
+  ap:
+    ssid: "rezti-c3-robot1"
+    password: ""
+captive_portal:
+
+## 基础定义，建议保留
+logger:
+api:
+ota:
+  platform: esphome
+web_server:
+  port: 80
+
+## 定义MQTT地址，请修改成自己的mqtt服务器，从而更新内容
+mqtt:
+  broker: 192.168.1.1
+  username: your_username
+  password: your_password
+  discovery: False
+
+## 配置LD2410毫米波人体存在传感器
+ld2410:
+uart:
+  tx_pin: GPIO21
+  rx_pin: GPIO20
+  baud_rate: 256000
+  stop_bits: 1
+  parity: NONE
+switch:
+  - platform: gpio
+    pin: GPIO1
+    name: "ST7789 BLK"
+    id: led
+    inverted: true
+    restore_mode: ALWAYS_ON
+binary_sensor:
+  - platform: ld2410
+    has_target:
+      name: "LD2410 Presence"
+
+## 配置wb2812b RGB灯光
+light:
+  - platform: neopixelbus
+    type: GRB
+    variant: WS2812
+    pin: GPIO8
+    num_leds: 1
+    name: "WB2812"
+    id: wb2812
+
+
+## 配置旋转编码器，左手默认配置了显示屏翻页，右手未做定义，用于ha自定义配置
+sensor:
+  - platform: rotary_encoder
+    name: "left hand"
+    pin_a: GPIO2
+    pin_b: GPIO3
+    restore_mode: ALWAYS_ZERO
+#    on_clockwise:
+#      - display.page.show_next: my_display
+#    on_anticlockwise:
+#      - display.page.show_previous: my_display
+  - platform: rotary_encoder
+    name: "right hand"
+    pin_a: GPIO5
+    pin_b: GPIO0
+    restore_mode: ALWAYS_ZERO
+## 配置DHT11温湿度传感器
+  - platform: dht
+    pin: GPIO9
+    temperature:
+      name: "1-1 Temp_sensor"
+      id: temp_sensor
+    humidity:
+      name: "1-2 Humi_sensor"
+      id: hum_sensor
+    update_interval: 60s
+## 配置LD2410距离
+  - platform: ld2410
+    detection_distance:
+      name: "LD2410 Distance"
+
+## 配置ST7789屏幕
+spi:
+  id: my_spi
+  clk_pin: GPIO6
+  mosi_pin: GPIO7
+
+display:
+  - platform: ili9xxx
+    model: ST7789V
+    dimensions:
+      height: 240
+      width: 240
+      offset_height: 80
+      offset_width: 0
+    transform: #镜像选项
+      swap_xy: false
+      mirror_x: false
+      mirror_y: true
+    color_order: bgr
+    invert_colors: true
+    data_rate: 40MHz
+    dc_pin: GPIO4
+    cs_pin: GPIO10
+    id: my_display
+    pages:
+      - id: page1
+        lambda: |-
+          it.strftime(it.get_width()/2, 20, id(roboto_50), TextAlign::TOP_CENTER, "%H:%M:%S", id(time1).now());
+          it.printf(it.get_width()/2, 80, id(roboto_30), Color(0xFFFFFF), COLOR_OFF, TextAlign::TOP_CENTER, 
+            "T: %.1f°C, H: %.1f%%", id(temp_sensor).state, id(hum_sensor).state);
+          it.filled_rectangle(40, it.get_height()-48, it.get_width()-45, 45, Color(0xFCC760));
+          it.printf(it.get_width()-20, it.get_height()-5, id(roboto_30), Color(0xFFFFFF), COLOR_OFF, TextAlign::BOTTOM_RIGHT, "%s", id(my_message).state.c_str());
+
+## 配置显示字体
+font:
+  - file: "gfonts://Roboto"
+    id: roboto_50
+    size: 50
+  - file: "gfonts://Roboto"
+    id: roboto_30
+    size: 30
+
+## 配置时间，联网自动获取
+time:
+  - platform: sntp
+    id: time1
+
+text:
+  - platform: template
+    mode: text
+    optimistic: true
+    name: my_message
+    id: my_message
+
