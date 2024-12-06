@@ -1,6 +1,3 @@
----
-产品开发日志: "[[1.1 人体存在传感器_机器人版_开发日志]]"
----
 ## 文件夹结构
 ```
 switch_zl_8/        # 工作区
@@ -56,17 +53,26 @@ DIY人体存在传感器的进阶版；本来打算做着玩的，也没想好�
 
 ### 软件效果展示
 
-#### 默认显示（照片）
-- 时间
-- 温湿度
-- 距离
-- mqtt一句话
+#### 默认显示：时间、温湿度、mqtt消息订阅
+<center>
+	<img 
+	align="absmiddle" src="https://www.buda8888.com:30006/images/ReZ-TI/Product/SmartHome/Sensor/presence_sensor_robot/jlc/9.jpg" 
+	style="max-width:100%" />
+</center>
 #### 通过HA控制灯光自动化效果（gif）
-- 已实现，待录制视频
+<center>
+	<img 
+	align="absmiddle" src="https://www.buda8888.com:30006/images/ReZ-TI/Product/SmartHome/Sensor/presence_sensor_robot/jlc/10.gif" 
+	style="max-width:100%" />
+</center>
 #### 根据距离感应来调整灯光自动化（gif）
-- 已实现，esphome默认编译
-#### mqtt订阅
-- 已实现，凑一对儿可以发消息（照片）
+<center>
+	<img 
+	align="absmiddle" src="https://www.buda8888.com:30006/images/ReZ-TI/Product/SmartHome/Sensor/presence_sensor_robot/jlc/11.gif" 
+	style="max-width:100%" />
+</center>
+
+
 
 
 ## 成本预估及购买建议
@@ -76,18 +82,17 @@ DIY人体存在传感器的进阶版；本来打算做着玩的，也没想好�
 
 ### 购买渠道
 
-| 配件名称         | 参考价格 | 购买渠道                | 链接                                         |
-| ------------ | ---- | ------------------- | ------------------------------------------ |
-| PCB电路板1块     | /    | 嘉立创                 | /                                          |
-| ESP32C3-mini | 11   | 淘宝（Saint Geffen企业店） | [点击跳转](https://s.click.taobao.com/i0JbsJt) |
-| LD2410B      | 18.9 | 淘宝（hilink旗舰店）       | [点击跳转](https://s.click.taobao.com/pmBbsJt) |
-| DHT11温湿度传感器  | 2.5  | 淘宝（推荐深圳优信电子）        | 进店搜索                                       |
-| 旋转编码器        | 1.89 | 淘宝（推荐深圳优信电子）        | 进店搜索                                       |
-| 其他电容电阻等辅料    |      | 淘宝（推荐深圳优信电子）        | 进店搜索                                       |
-| ST7789屏幕     | 9.9  | 淘宝我的店               | ==点击跳转==                                   |
-| 3D打印外壳       | 10+  | [打印文件]()            | ==点击跳转==                                   |
+| 配件名称         | 参考价格 | 购买渠道                                                             | 链接                                                                                                   |
+| ------------ | ---- | ---------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| PCB电路板1块     | /    | 嘉立创                                                              | /                                                                                                    |
+| ESP32C3-mini | 11   | 淘宝（Saint Geffen企业店）                                              | [点击跳转](https://s.click.taobao.com/i0JbsJt)                                                           |
+| LD2410B      | 18.9 | 淘宝（hilink旗舰店）                                                    | [点击跳转](https://s.click.taobao.com/pmBbsJt)                                                           |
+| DHT11温湿度传感器  | 2.5  | 淘宝（推荐深圳优信电子）                                                     | 进店搜索                                                                                                 |
+| 旋转编码器        | 1.89 | 淘宝（推荐深圳优信电子）                                                     | 进店搜索                                                                                                 |
+| 其他电容电阻等辅料    |      | 淘宝（推荐深圳优信电子）                                                     | 进店搜索                                                                                                 |
+| ST7789屏幕     | 9.9  | 淘宝我的店                                                            | [点击跳转](https://item.taobao.com/item.htm?spm=a21dvs.23580594.0.0.621e2c1bvMeQk0&ft=t&id=860664325198) |
+| 3D打印外壳       | 10+  | [打印文件](https://makerworld.com/zh/models/853349#profileId-801964) | [点击跳转](https://item.taobao.com/item.htm?spm=a21dvs.23580594.0.0.621e2c1bvMeQk0&ft=t&id=860664325198) |
 
-==3D打印文件放到maker world上==
 上面的价格都不含运费，
 如果嫌淘宝麻烦的，可以在嘉立创一键下单（嘉立创没有的参考上面的链接），我已经把元器件都匹配了立创商城；
 外壳的3D打印，如果自己没有打印机可以来我的淘宝小店支持一下~~
